@@ -1,0 +1,65 @@
+#include<iostream>
+#include<fstream>
+
+using namespace std;
+
+int main()
+{
+int flag;
+char got[100],name[50],name1[50];
+ifstream jumb1("name.txt");
+ofstream gotit("get.txt");
+while(!jumb1.eof())
+{
+jumb1.getline(name1,25);
+int l1=strlen(name1);
+ifstream fin("words2.txt");
+while(!fin.eof())
+{
+fin.getline(name,25);
+int l=strlen(name);
+strcpy(got,name);
+int temp1=0,temp=0;
+for(int i=0;i<l1;i++)
+{
+for(int j=0;j<l1;j++)
+{
+if(name1[i]<name1[j])
+{
+temp1=name1[i];
+name1[i]=name1[j];
+name1[j]=temp1;
+}
+}
+}
+for(int d=0;d<l;d++)
+{
+for(int s=0;s<l;s++)
+{
+if(name[d]<name[s])
+{
+temp=name[d];
+name[d]=name[s];
+name[s]=temp;
+}
+}
+}
+if(strcmp(name1,name)==0)
+{
+for(int h=3;h<l;h++)
+{
+cout<<got[h];
+gotit<<got[h];
+}
+gotit<<',';
+cout<<"\n";
+}
+}
+fin.close();
+}
+jumb1.close();
+gotit.close();
+return 0;
+}
+
+
