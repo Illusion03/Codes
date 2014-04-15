@@ -1,0 +1,422 @@
+<?php
+$image=@imagecreatefrompng('image.png');
+$width = imagesx($image);
+$height = imagesy($image);
+$z=0;
+$black=0;
+$white=0;
+for($j=0;$j<$height;$j++)
+{
+for($i=0;$i<$width;$i++)
+{
+$rgb = imagecolorat($image, $i, $j);
+//$rgb = imagecolorsforindex($image, $color);
+//print_r($rgb);
+//var_dump($rgb);
+$r = ($rgb >> 16) & 0xFF;
+$g = ($rgb >> 8) & 0xFF;
+$b = $rgb & 0xFF;
+if($r==0 && $g ==0 && $b==0)
+{
+$black++;
+}
+else if($r==0 && $g== 0 && $b==1)
+{
+//var_dump($black);
+$ascii[$z]=chr($black);
+$black=1;
+$z++;
+$white++;
+}
+}
+}
+var_dump($ascii);
+//var_dump($white);
+$d=0;
+$w=0;
+$g=0;
+while($w < $white)
+{
+$no=0;
+$morse[0]="\0";
+$morse[1]="\0";
+$morse[2]="\0";
+$morse[3]="\0";
+$morse[4]="\0";
+while($ascii[$w] != " ")
+{
+$morse[$no]=$ascii[$w];
+$no++;
+$w++;
+}
+$w++;
+$morse1[0]= ".";
+$morse1[1]="\0";
+$morse1[2]="\0";
+$morse1[3]="\0";
+$morse1[4]="\0";
+//var_dump($morse);
+if($morse == $morse1)
+{
+$pass[$g] = "E";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]="\0";
+$morse1[2]="\0";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "T";
+$g++;
+}
+$morse1[0]=  ".";
+$morse1[1]=  "-";
+$morse1[2]="\0";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "A";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= ".";
+$morse1[2]="\0";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "I";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= ".";
+$morse1[2]="\0";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "N";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= "-";
+$morse1[2]="\0";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "M";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= ".";
+$morse1[2]= ".";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "D";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= "-";
+$morse1[2]= ".";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "G";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= ".";
+$morse1[2]= "-";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "K";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= "-";
+$morse1[2]= "-";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "O";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= "-";
+$morse1[2]= ".";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "R";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= ".";
+$morse1[2]= ".";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "S";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= ".";
+$morse1[2]= "-";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "U";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= "-";
+$morse1[2]= "-";
+$morse1[3]="\0";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "W";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= ".";
+$morse1[2]= ".";
+$morse1[3]= ".";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "B";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= ".";
+$morse1[2]= "-";
+$morse1[3]= ".";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "C";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= ".";
+$morse1[2]= "-";
+$morse1[3]= ".";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "F";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= ".";
+$morse1[2]= ".";
+$morse1[3]= ".";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "H";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= "-";
+$morse1[2]= "-";
+$morse1[3]= "-";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "J";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= "-";
+$morse1[2]= ".";
+$morse1[3]= ".";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "L";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= "-";
+$morse1[2]= "-";
+$morse1[3]= ".";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "P";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= "-";
+$morse1[2]= ".";
+$morse1[3]= "-";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "Q";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= ".";
+$morse1[2]= ".";
+$morse1[3]= "-";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "V";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= ".";
+$morse1[2]= ".";
+$morse1[3]= "-";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "X";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= ".";
+$morse1[2]= "-";
+$morse1[3]= "-";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "Y";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= "-";
+$morse1[2]= ".";
+$morse1[3]= ".";
+$morse1[4]="\0";
+if($morse == $morse1)
+{
+$pass[$g] = "Z";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= "-";
+$morse1[2]= "-";
+$morse1[3]= "-";
+$morse1[4]="-";
+if($morse == $morse1)
+{
+$pass[$g] = "1";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= ".";
+$morse1[2]= "-";
+$morse1[3]= "-";
+$morse1[4]="-";
+if($morse == $morse1)
+{
+$pass[$g] = "2";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= ".";
+$morse1[2]= ".";
+$morse1[3]= "-";
+$morse1[4]="-";
+if($morse == $morse1)
+{
+$pass[$g] = "3";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= ".";
+$morse1[2]= ".";
+$morse1[3]= ".";
+$morse1[4]="-";
+if($morse == $morse1)
+{
+$pass[$g] = "4";
+$g++;
+}
+$morse1[0]= ".";
+$morse1[1]= ".";
+$morse1[2]= ".";
+$morse1[3]= ".";
+$morse1[4]=".";
+if($morse == $morse1)
+{
+$pass[$g] = "5";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= ".";
+$morse1[2]= ".";
+$morse1[3]= ".";
+$morse1[4]=".";
+if($morse == $morse1)
+{
+$pass[$g] = "6";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= "-";
+$morse1[2]= ".";
+$morse1[3]= ".";
+$morse1[4]=".";
+if($morse == $morse1)
+{
+$pass[$g] = "7";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= "-";
+$morse1[2]= "-";
+$morse1[3]= ".";
+$morse1[4]=".";
+if($morse == $morse1)
+{
+$pass[$g] = "8";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= "-";
+$morse1[2]= "-";
+$morse1[3]= "-";
+$morse1[4]=".";
+if($morse == $morse1)
+{
+$pass[$g] = "9";
+$g++;
+}
+$morse1[0]= "-";
+$morse1[1]= "-";
+$morse1[2]= "-";
+$morse1[3]= "-";
+$morse1[4]="-";
+if($morse == $morse1)
+{
+$pass[$g] = "0";
+$g++;
+}
+}
+var_dump($pass);
+$file=fopen("pass.txt","w");
+for($wt=0;$wt<$g;$wt++)
+{
+fwrite($file,$pass[$wt]);
+}
+fclose($file);
+?>
