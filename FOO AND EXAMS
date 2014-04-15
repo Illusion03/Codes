@@ -1,0 +1,34 @@
+using System; 
+class MyClass {
+    static void Main(string[] args) {
+       
+        
+        var line1 = System.Console.ReadLine().Trim();
+        var t = Int32.Parse(line1);
+        for (var g = 0; g < t; g++) {
+           
+		var s = Console.ReadLine().Trim();
+        string[] input = s.Split(' ');
+		
+		long A = Convert.ToInt64(input[0]);
+		long B = Convert.ToInt64(input[1]);
+		long C = Convert.ToInt64(input[2]);
+		long D = Convert.ToInt64(input[3]);
+		long K = Convert.ToInt64(input[4]);
+		
+		long r1,T;
+		
+			for(T=0;T<=1000000;T++)
+			{
+				r1=(A*T*T*T)+(B*T*T)+(C*T)+D;
+				if(r1 > K)
+				break;
+				
+			}
+		System.Console.WriteLine(T-1);
+	}
+        
+
+        
+    }
+}
