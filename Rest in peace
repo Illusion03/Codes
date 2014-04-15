@@ -1,0 +1,35 @@
+using System; 
+class MyClass {
+    static void Main(string[] args) {
+       
+        
+        var line1 = System.Console.ReadLine().Trim();
+        var T = Int32.Parse(line1);
+        for (var g = 0; g < T; g++) {
+           
+		var Number = System.Console.ReadLine().Trim();
+        int numint = Int32.Parse(Number);
+		string numstr = Number.ToString();
+
+		//System.Console.WriteLine(numint);
+		//System.Console.WriteLine(numstr);		
+        int length = numstr.Length;
+		int flag=0;
+		
+		for(int i=0;i<length-1;i++)
+		if((numstr[i]-'0') == 2 && (numstr[i+1]-'0') == 1)
+		{
+			flag=1; break;	
+		}
+		
+		if(flag == 1 || (numint % 21) == 0)
+		System.Console.WriteLine("The streak is broken!");
+		else
+		System.Console.WriteLine("The streak lives still in our heart!");
+		
+		}
+        
+
+        
+    }
+}
