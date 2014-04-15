@@ -1,0 +1,63 @@
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <deque>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <cstring>
+
+using namespace std;
+
+int a[26],t,n,flag;
+char city[11],dummy[2];
+
+int main()
+{
+	scanf("%d",&t);
+		while(t--)
+		{
+			flag=0;
+			scanf("%d",&n);
+			gets(dummy);
+			
+			//printf("%d",n);
+			for(int i=0;i<n;i++)
+			{
+				scanf("%s",city);
+				//puts(city);		
+				a[city[0]-'a']++;
+				//printf("%d %d\n",a[1],a[2]);
+			}
+			
+			for(int i=0;i<26;i++)
+			{
+				if(a[i] > 1)
+				{
+					flag=1;
+					break;
+				}
+			}
+		
+			if(flag)
+			puts("NO");	
+			else
+			puts("YES");
+			
+			memset(a,0,sizeof(a));
+		
+		}
+
+return 0;
+}
