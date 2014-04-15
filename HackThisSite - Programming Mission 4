@@ -1,0 +1,278 @@
+<?php
+
+$user = "***********";
+$pass = "**************";
+
+
+/* I need you to have a look here at refwrer part , i included this because i read
+in fourms they say HTS have crappy code,its checks for refrer hence need a refrer URL too, Correct me if i m wrong */
+
+$referer = "http://www.hackthissite.org";
+$loginURL = "http://www.hackthissite.org/user/login";
+$submit_url= "http://www.hackthissite.org/missions/prog/4/index.php";
+$challenge_url="http://www.hackthissite.org/missions/prog/4/";
+$xml_file_url="http://www.hackthissite.org/missions/prog/4/XML";
+$cookieFile = "cookies.txt";
+$xml_file="xml.bz2";
+
+$fpxml = fopen($xml_file,'w');
+
+
+
+$ch = curl_init();
+
+curl_setopt($ch,CURLOPT_URL,$loginURL);
+
+curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+curl_setopt($ch,CURLOPT_FOLLOWLOCATION,true);
+curl_setopt($ch, CURLOPT_REFERER,$referer); 
+
+curl_setopt($ch,CURLOPT_COOKIEJAR,$cookieFile); 
+curl_setopt($ch,CURLOPT_COOKIEFILE,$cookieFile);
+
+
+curl_setopt($ch,CURLOPT_POST,true);
+curl_setopt($ch,CURLOPT_POSTFIELDS,"username=$user&password=$pass&login=Login");
+
+curl_exec($ch);
+
+
+curl_setopt($ch,CURLOPT_POST,false);
+
+curl_setopt($ch, CURLOPT_URL, $challenge_url);
+
+curl_exec($ch);
+
+curl_setopt($ch, CURLOPT_URL, $xml_file_url);
+
+curl_setopt($ch,CURLOPT_FILE,$fpxml); // CREATING BZ2 FILE
+
+curl_exec($ch);
+
+
+
+// EXTRACTING Bz2 file to retreive PLAIN XML FILE
+
+$bz = bzopen($xml_file, "r") or die("Couldn't open $file");
+
+$decompressed_file = '';
+
+while (!feof($bz))
+ {
+
+  $decompressed_file .= bzread($bz, 2048);
+}
+bzclose($bz);
+
+echo "The contents of $file are: <br />\n";
+echo $decompressed_file;
+
+// $decompressed_file CONTAINS THE file xml file to be read.
+
+
+class arc
+{
+	var $xcen; 
+	var $ycen;
+	var $radius;
+	var $ext;
+	var $start;
+	var $color;
+}
+
+class line
+{
+	var $xstart;
+	var $xend;
+	var $ystart;
+	var $yend;
+	var $color;
+}
+
+$xml = simplexml_load_file($decompressed_file);
+
+$arc = new arc();
+$line = new line();
+
+$i=0;
+
+foreach($xml->Arc as $ARC)
+{
+	
+	$arc->xcen[$i] = $ARC->XCenter; 
+	$arc->ycen[$i] = $ARC->YCenter;
+	$arc->radius[$i] = $ARC->Radius;
+	$arc->ext[$i] = $ARC->ArcExtend;
+	$arc->start[$i] = $ARC->ArcStart; 
+	
+	if($ARC->Color)
+	{
+		
+		$arc->color[$i] = $ARC->Color;
+	}
+	else
+	{
+		$color = "white";
+		$arc->color[$i][0] = $color;
+	}
+	$i++;
+
+}
+
+$l=0;
+
+foreach($xml->Line as $LINE)
+{
+	
+	$line->xstart[$l] = $LINE->XStart; 
+	$line->xend[$l] = $LINE->XEnd;
+	$line->ystart[$l] = $LINE->YStart;
+	$line->yend[$l] = $LINE->YEnd;
+	
+	if($LINE->Color)
+	{
+		$line->color[$l] = $LINE->Color;
+	}
+	else
+	{
+		$color = "white";
+		$line->color[$l][0] = $color;
+	}
+	$l++;
+
+}
+
+$l--;
+$i--;
+
+
+$im = @ImageCreate(1000, 1000);
+$background_color = ImageColorAllocate ($im, 0, 0, 0);
+
+
+$ln = 0;
+$ar = 0;
+
+while ($ln <= $l)
+{
+
+ $x1 = (double)($line->xstart[$ln][0]);
+ $y1 = (double)(1000-$line->ystart[$ln][0]);
+ $x2 = (double)($line->xend[$ln][0]);
+ $y2 = (double)(1000-$line->yend[$ln][0]); 
+
+
+if($line->color[$ln][0] == "white")
+{
+
+	
+$text_color = ImageColorAllocate($im, 255,255,255 );
+imageline($im,$x1,$y1,$x2,$y2,$text_color); 
+
+}
+
+else if($line->color[$ln][0] == "green")
+{
+
+$text_color = ImageColorAllocate($im, 0,255,0 );
+
+imageline($im,$x1,$y1,$x2,$y2,$text_color); 
+
+}
+
+else if($line->color[$ln][0] == "blue")
+{
+
+$text_color = ImageColorAllocate($im, 0,0,255 );
+
+imageline($im,$x1,$y1,$x2,$y2,$text_color); 
+
+}
+
+else if($line->color[$ln][0] == "red")
+{
+
+$text_color = ImageColorAllocate($im, 255,0,0 );
+
+imageline($im,$x1,$y1,$x2,$y2,$text_color); 
+
+}
+
+else if($line->color[$ln][0] == "yellow")
+{
+
+$text_color = ImageColorAllocate($im, 255,255,0 );
+
+imageline($im,$x1,$y1,$x2,$y2,$text_color); 
+
+}
+
+$ln++;
+}
+
+
+while ( $ar <= $i)
+{
+
+
+ $xc =  (double)($arc->xcen[$ar][0]);
+ $yc =  (double)(1000-($arc->ycen[$ar][0]));
+ $beg = 360-(int)($arc->ext[$ar][0]);
+ $end = 360-(int)($arc->start[$ar][0]); 
+ $rad = (double)($arc->radius[$ar][0]);
+ 
+
+ 
+ if($arc->color[$ar][0] == "white")
+{
+
+$text_color = ImageColorAllocate($im, 255,255,255 );
+imagearc($im, $xc,$yc,$rad*2,$rad*2,$beg,$end,$text_color);
+
+}
+
+else if($arc->color[$ar][0] == "green")
+{
+
+$text_color = ImageColorAllocate($im, 0,255,0 );
+imagearc($im, $xc,$yc,$rad*2,$rad*2,$beg,$end, $text_color);
+
+
+}
+
+else if($arc->color[$ar][0] == "blue")
+{
+
+$text_color = ImageColorAllocate($im, 0,0,255 );
+imagearc($im, $xc,$yc,$rad*2,$rad*2,$beg,$end, $text_color);
+
+}
+
+else if($arc->color[$ar][0] == "red")
+{
+
+$text_color = ImageColorAllocate($im, 255,0,0 );
+imagearc($im, $xc,$yc,$rad*2,$rad*2,$beg,$end, $text_color);
+
+}
+
+else if($arc->color[$ar][0] == "yellow")
+{
+
+$text_color = ImageColorAllocate($im, 255,255,0 );
+
+imagearc($im, $xc,$yc,$rad*2,$rad*2,$beg,$end, $text_color);
+
+}
+
+$ar++;
+} 
+
+
+
+Imagepng($im);
+
+
+
+
+?>
