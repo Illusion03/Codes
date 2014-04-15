@@ -1,0 +1,130 @@
+<?php
+
+$user = "**************"; // my username for HTS
+$pass = "**********"; // my password 
+
+
+$referer = "http://www.hackthissite.org";
+$loginURL = "http://www.hackthissite.org/user/login";
+$submit_url= "http://www.hackthissite.org/missions/prog/12/index.php";
+$challenge_url="http://www.hackthissite.org/missions/prog/12/";
+$cookieFile = "cookies.txt";
+
+
+// CURL LOGIN SCRIPT STARTS HERE
+
+
+$ch = curl_init();
+
+curl_setopt($ch,CURLOPT_URL,$loginURL);
+
+curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+curl_setopt($ch,CURLOPT_FOLLOWLOCATION,true);
+curl_setopt($ch, CURLOPT_REFERER,$referer); 
+
+curl_setopt($ch,CURLOPT_COOKIEJAR,$cookieFile); 
+curl_setopt($ch,CURLOPT_COOKIEFILE,$cookieFile);
+
+
+curl_setopt($ch,CURLOPT_POST,true);
+
+
+// SENDING USER NAME AND PASSWORD FOR LOGIN
+
+curl_setopt($ch,CURLOPT_POSTFIELDS,"username=$user&password=$pass&login=Login");
+
+curl_exec($ch);
+
+
+curl_setopt($ch,CURLOPT_POST,false);
+
+curl_setopt($ch, CURLOPT_URL, $challenge_url);
+
+$content = curl_exec($ch);
+
+preg_match("/value\=\".*?\"/",$content,$str);
+
+$str =  implode('',$str);
+$len = strlen($str);
+
+$string = substr($str,7,$str-1);
+
+
+
+preg_match_all("/\d/",$string,$numbers);
+preg_match_all("/[^0-9]/i",$string,$non_numeric);
+
+$non_numeric = implode('',$non_numeric[0]);
+
+$non_numeric=substr($non_numeric,0,25);  // FINAL 25 Non numeric char
+
+for($k=0;$k<25;$k++)
+{
+ $char = substr($non_numeric,$k,$k+1);
+ $ascii[$k]=chr(ord($char)+1);
+}
+ 
+$ascii = implode('',$ascii);
+
+
+//echo "Non Numeric = $non_numeric" . "\n";
+
+foreach($numbers[0] as $count => $value)
+{
+	if( $value != 0 && $value != 1 )
+	{
+	$zero_one_removed[$count]= $value;
+	}
+
+}
+
+unset($value);
+
+$sum_of_prime=0;
+$sum_of_composite=0;
+
+foreach($zero_one_removed  as $value)
+{
+	 $flag = 0;
+	
+                      for($j=2;$j<=$value/2;$j++)
+                      {
+                                         if( $value%$j == 0)
+                                         {
+                                             $flag=1;
+                                             break;
+                                         }
+                                         
+                      }
+                      
+                      if($flag == 0)
+                      {
+						$sum_of_prime += $value;
+					  }
+					  
+					  else 
+					  {
+					    $sum_of_composite += $value;
+					  }
+						
+						 
+
+}
+
+$product = $sum_of_prime * $sum_of_composite;  // Final product;
+
+$final = $ascii . $product;
+
+echo $final;
+
+curl_setopt($ch,CURLOPT_POST,TRUE);
+curl_setopt($ch, CURLOPT_URL, $submit_url);
+curl_setopt($ch,CURLOPT_POSTFIELDS,"solution=$final&submitbutton=submit");
+$fingersX=curl_exec($ch);
+
+echo $fingersX;
+
+curl_close($ch); 
+
+
+?>
